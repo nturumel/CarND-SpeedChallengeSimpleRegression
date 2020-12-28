@@ -1,4 +1,4 @@
-from globals import INPUT_SHAPE, TRAIN_OUTPUT, SAVE_ARRAY_FILE, MODEL_PATH, LOG_DIR
+from globals import INPUT_SHAPE, TRAIN_OUTPUT, SAVE_ARRAY_FILE, MODEL_PATH, LOG_DIR, EPOCHS, BATCH_SIZE
 
 import tensorflow as tf
 from keras.models import Sequential
@@ -49,8 +49,7 @@ def train(train_input = SAVE_ARRAY_FILE, train_output = TRAIN_OUTPUT):
     history = History()
     callbacks_list = [checkpoint, tensorboard, history, earlyStopping]
 
-    results = cross_val_score(estimator, X, Y, cv=kfold, fit_params={'callbacks': callbacks_list})
-    print("Baseline: %.2f (%.2f) MSE" % (results.mean(), results.std()), end="\n")
-
+    model.fit(X, Y, batch_size=BATCH_SIZE, epochs=EPOCHS)
+    
 if __name__ == '__main__':
     train()
