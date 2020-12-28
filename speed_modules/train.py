@@ -1,4 +1,4 @@
-from globals import INPUT_SHAPE, TRAIN_OUTPUT, SAVE_ARRAY_FILE, MODEL_PATH
+from globals import INPUT_SHAPE, TRAIN_OUTPUT, SAVE_ARRAY_FILE, MODEL_PATH, LOG_DIR
 
 import tensorflow as tf
 from keras.models import Sequential
@@ -38,7 +38,7 @@ def train(train_input = SAVE_ARRAY_FILE, train_output = TRAIN_OUTPUT):
     estimator = KerasRegressor(build_fn=model, epochs=100, batch_size=250, verbose=0)
     kfold = KFold(n_splits=10)
     checkpoint = ModelCheckpoint(MODEL_PATH, verbose=1)
-    tensorboard = TensorBoard(log_dir='./logs', histogram_freq=1, write_graph=True, write_images=False)
+    tensorboard = TensorBoard(log_dir=LOG_DIR, histogram_freq=1, write_graph=True, write_images=False)
     callbacks_list = [checkpoint, tensorboard]
     results = cross_val_score(estimator, X, Y, cv=kfold, fit_params={'callbacks': callbacks_list})
     print("Baseline: %.2f (%.2f) MSE" % (results.mean(), results.std()), end="\n")

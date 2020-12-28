@@ -8,3 +8,4 @@ TRAIN_FILE = r"data/train.mp4"
 TEST_FILE = r"data/test.mp4"
 INPUT_SHAPE = [10, 2]
 MODEL_PATH = r"speed_modules/speed_predictor_model"
+LOG_DIR = r'./logs'
