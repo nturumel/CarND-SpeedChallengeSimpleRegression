@@ -6,9 +6,7 @@ from keras.layers import Dense, Flatten, Input, Activation
 from keras import activations
 from keras.callbacks import ModelCheckpoint, TensorBoard, History, EarlyStopping 
 import keras.metrics
-from keras.wrappers.scikit_learn import KerasRegressor
-from sklearn.model_selection import cross_val_score
-from sklearn.model_selection import KFold
+from sklearn.model_selection import train_test_split 
 
 import numpy as np
 import csv
@@ -40,6 +38,9 @@ def train(train_input = SAVE_ARRAY_FILE, train_output = TRAIN_OUTPUT):
     # train the model
     model = get_model()
    
+    # split 
+    X_train, X_val, Y_train, Y_val = train_test_split(X, Y, test_size=0.2, random_state=1)
+
     # callbacks
     earlyStopping = EarlyStopping(monitor='accuracy')
     checkpoint = ModelCheckpoint(MODEL_PATH, verbose=1, monitor='accuracy')
@@ -49,7 +50,7 @@ def train(train_input = SAVE_ARRAY_FILE, train_output = TRAIN_OUTPUT):
     callbacks_list = [checkpoint, tensorboard, history, earlyStopping]
 
    # run
-    model.fit(X, Y, batch_size=BATCH_SIZE, epochs=EPOCHS, callbacks=callbacks_list)
+    model.fit(X_train, Y_train, batch_size=BATCH_SIZE, epochs=EPOCHS,  validation_data=(X_val, Y_val), callbacks=callbacks_list)
     
 if __name__ == '__main__':
     train()
