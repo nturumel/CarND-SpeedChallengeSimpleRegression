@@ -5,6 +5,7 @@ from keras.models import Sequential
 from keras.layers import Dense, Flatten, Input, Activation
 from keras import activations
 from keras.callbacks import ModelCheckpoint, TensorBoard
+import keras.metrics
 from keras.wrappers.scikit_learn import KerasRegressor
 from sklearn.model_selection import cross_val_score
 from sklearn.model_selection import KFold
@@ -19,7 +20,7 @@ def model():
     model.add(Dense(3, activation='relu'))
     model.add(Flatten())
     model.add(Dense(1, activation='relu'))
-    model.compile(loss='mean_squared_error', optimizer='adam', metrics=['accuracy', 'loss'])
+    model.compile(loss='mean_squared_error', optimizer='adam', metrics=['accuracy', 'MeanSquaredError'])
     return model
 
 def train(train_input = SAVE_ARRAY_FILE, train_output = TRAIN_OUTPUT):
