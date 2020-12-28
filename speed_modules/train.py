@@ -45,7 +45,7 @@ def train(train_input = SAVE_ARRAY_FILE, train_output = TRAIN_OUTPUT):
     earlyStopping = EarlyStopping(monitor='accuracy')
     checkpoint = ModelCheckpoint(MODEL_PATH, verbose=1, monitor='accuracy')
     logdir = os.path.join(LOG_DIR, datetime.datetime.now().strftime("%Y%m%d-%H%M%S"))
-    tensorboard = TensorBoard(log_dir=logdir, histogram_freq=1, write_graph=True, update_freq=1, profile_batch = '500,520')
+    tensorboard = TensorBoard(log_dir=logdir, histogram_freq=1, write_graph=True, update_freq=1)
     history = History()
     callbacks_list = [checkpoint, tensorboard, history, earlyStopping]
 
