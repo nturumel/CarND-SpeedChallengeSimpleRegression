@@ -33,7 +33,6 @@ def train(train_input = SAVE_ARRAY_FILE, train_output = TRAIN_OUTPUT):
             for item in row:
                 Y.append(float(item))
     Y = np.array(Y[:-1])
-    print(X.shape, Y.shape)
 
     # train the model
     estimator = KerasRegressor(build_fn=model, epochs=100, batch_size=250, verbose=0)

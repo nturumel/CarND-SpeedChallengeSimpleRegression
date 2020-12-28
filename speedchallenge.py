@@ -17,22 +17,12 @@ class SpeedChallenge:
 
 if __name__=="__main__":
     parser = argparse.ArgumentParser()
-    '''
-    parser.add_argument("training_video",
-                        help="training video name")
-    parser.add_argument("training_file",
-                        help="training data file name")
-    parser.add_argument("--model", type=str,
-                        help="output model name")
-    '''
-    parser.add_argument("--mode", choices=["train", "preprocess" ''', "predict"'''],
+    #TODO: Add predict
+    #TODO: Add resume and wipe 
+    parser.add_argument("--mode", choices=["train", "preprocess"],
                         help="Train, Test, or predict model")
-    '''
-    parser.add_argument("--resume", action='store_true',
-                        help="resumes training")
-    parser.add_argument("--wipe", action='store_true',
-                        help="clears existing preprocessed data")
-    '''
+    
+
     args = parser.parse_args()
     print ("Speed Challenge")
     net = SpeedChallenge()
