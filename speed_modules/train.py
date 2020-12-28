@@ -38,9 +38,8 @@ def train(train_input = SAVE_ARRAY_FILE, train_output = TRAIN_OUTPUT):
     Y = np.array(Y[:-1])
 
     # train the model
-    estimator = KerasRegressor(build_fn=model, epochs=10, batch_size=250, verbose=1)
-    kfold = KFold(n_splits=10)
-    
+    model = model()
+   
     # callbacks
     earlyStopping = EarlyStopping(monitor='accuracy')
     checkpoint = ModelCheckpoint(MODEL_PATH, verbose=1, monitor='accuracy')
@@ -49,6 +48,7 @@ def train(train_input = SAVE_ARRAY_FILE, train_output = TRAIN_OUTPUT):
     history = History()
     callbacks_list = [checkpoint, tensorboard, history, earlyStopping]
 
+   # run
     model.fit(X, Y, batch_size=BATCH_SIZE, epochs=EPOCHS)
     
 if __name__ == '__main__':
