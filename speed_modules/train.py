@@ -4,7 +4,7 @@ import tensorflow as tf
 from keras.models import Sequential
 from keras.layers import Dense, Flatten, Input, Activation
 from keras import activations
-from keras.callbacks import ModelCheckpoint, TensorBoard, History 
+from keras.callbacks import ModelCheckpoint, TensorBoard, History, EarlyStopping 
 import keras.metrics
 from keras.wrappers.scikit_learn import KerasRegressor
 from sklearn.model_selection import cross_val_score
@@ -38,10 +38,11 @@ def train(train_input = SAVE_ARRAY_FILE, train_output = TRAIN_OUTPUT):
     # train the model
     estimator = KerasRegressor(build_fn=model, epochs=100, batch_size=250, verbose=0)
     kfold = KFold(n_splits=10)
-    checkpoint = ModelCheckpoint(MODEL_PATH, verbose=1, monitor='loss')
-    tensorboard = TensorBoard(log_dir=LOG_DIR)
+    earlyStopping = EarlyStopping(monitor='loss')
+    checkpoint = ModelCheckpoint(MODEL_PATH, verbose=1)
+    tensorboard = TensorBoard(log_dir=LOG_DIR, histogram_freq=1, write_graph=True, update_freq=1)
     history = History()
-    callbacks_list = [checkpoint, tensorboard, history]
+    callbacks_list = [checkpoint, tensorboard, history, earlyStopping]
     results = cross_val_score(estimator, X, Y, cv=kfold, fit_params={'callbacks': callbacks_list})
     print("Baseline: %.2f (%.2f) MSE" % (results.mean(), results.std()), end="\n")
 
