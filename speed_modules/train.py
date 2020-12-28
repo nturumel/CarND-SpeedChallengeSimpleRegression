@@ -37,7 +37,8 @@ def train(train_input = SAVE_ARRAY_FILE, train_output = TRAIN_OUTPUT):
 
     # train the model
     model = get_model()
-   
+    print(model.summary()
+    )
     # split 
     X_train, X_val, Y_train, Y_val = train_test_split(X, Y, test_size=0.2, random_state=1)
 
