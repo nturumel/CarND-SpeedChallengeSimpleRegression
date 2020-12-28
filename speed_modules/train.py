@@ -42,8 +42,8 @@ def train(train_input = SAVE_ARRAY_FILE, train_output = TRAIN_OUTPUT):
     kfold = KFold(n_splits=10)
     
     # callbacks
-    earlyStopping = EarlyStopping(monitor='loss')
-    checkpoint = ModelCheckpoint(MODEL_PATH, verbose=1)
+    earlyStopping = EarlyStopping(monitor='accuracy')
+    checkpoint = ModelCheckpoint(MODEL_PATH, verbose=1, monitor='accuracy')
     logdir = os.path.join(LOG_DIR, datetime.datetime.now().strftime("%Y%m%d-%H%M%S"))
     tensorboard = TensorBoard(log_dir=LOG_DIR, histogram_freq=1, write_graph=True, update_freq=1)
     history = History()
