@@ -15,7 +15,7 @@ import csv
 import datetime
 import os
 
-def model():
+def get_model():
     model = Sequential()
     model.add(Input(shape = (INPUT_SHAPE)))
     model.add(Dense(5, activation='relu'))
@@ -38,7 +38,7 @@ def train(train_input = SAVE_ARRAY_FILE, train_output = TRAIN_OUTPUT):
     Y = np.array(Y[:-1])
 
     # train the model
-    model = model()
+    model = get_model()
    
     # callbacks
     earlyStopping = EarlyStopping(monitor='accuracy')
