@@ -49,7 +49,7 @@ def train(train_input = SAVE_ARRAY_FILE, train_output = TRAIN_OUTPUT):
     callbacks_list = [checkpoint, tensorboard, history, earlyStopping]
 
    # run
-    model.fit(X, Y, batch_size=BATCH_SIZE, epochs=EPOCHS)
+    model.fit(X, Y, batch_size=BATCH_SIZE, epochs=EPOCHS, callbacks=callbacks_list)
     
 if __name__ == '__main__':
     train()
