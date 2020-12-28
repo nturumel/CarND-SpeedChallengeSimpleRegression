@@ -13,6 +13,7 @@ from sklearn.model_selection import KFold
 import numpy as np
 import csv
 import datetime
+import os
 
 def model():
     model = Sequential()
@@ -39,12 +40,15 @@ def train(train_input = SAVE_ARRAY_FILE, train_output = TRAIN_OUTPUT):
     # train the model
     estimator = KerasRegressor(build_fn=model, epochs=100, batch_size=250, verbose=0)
     kfold = KFold(n_splits=10)
+    
+    # callbacks
     earlyStopping = EarlyStopping(monitor='loss')
     checkpoint = ModelCheckpoint(MODEL_PATH, verbose=1)
     logdir = os.path.join(LOG_DIR, datetime.datetime.now().strftime("%Y%m%d-%H%M%S"))
     tensorboard = TensorBoard(log_dir=LOG_DIR, histogram_freq=1, write_graph=True, update_freq=1)
     history = History()
     callbacks_list = [checkpoint, tensorboard, history, earlyStopping]
+
     results = cross_val_score(estimator, X, Y, cv=kfold, fit_params={'callbacks': callbacks_list})
     print("Baseline: %.2f (%.2f) MSE" % (results.mean(), results.std()), end="\n")
 
