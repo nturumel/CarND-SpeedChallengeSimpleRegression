@@ -1,3 +1,1 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:26410139f587c814e58890e2aa61330b00d59f35c9d5da2b0fcc37e3715fc535
-size 193
+docker run --name nihar -it --rm -v $PWD:/tf/notebooks -e DISPLAY=host.docker.internal:0.0 -e LIBGL_ALWAYS_INDIRECT=0  tensorflow/tensorflow:latest-gpu-jupyter_keras_openCV_scipy_moviepy_scikit

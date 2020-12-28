@@ -1,3 +1,9 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:e68db3f348b4fbdc053f4467319aa58de1c1a933c5b8eca16e01c874d7f93331
-size 332
+FROM tensorflow/tensorflow:latest-gpu-jupyter
+RUN apt-get update
+RUN apt-get install ffmpeg libsm6 libxext6  -y
+RUN python -m pip install --upgrade pip
+RUN python -m  pip install moviepy
+RUN python -m  pip install scipy
+RUN python -m  pip install opencv-python
+RUN python -m  pip install keras
+RUN python -m pip install scikit-learn
