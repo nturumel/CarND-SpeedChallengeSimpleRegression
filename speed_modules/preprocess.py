@@ -2,6 +2,7 @@ from globals import TRAIN_FILE
 import cv2
 import numpy as np
 from globals import *
+import sys 
 
 def process_flow(flow_data):
     # we will divide the op_flow into 10 consecutive regions
