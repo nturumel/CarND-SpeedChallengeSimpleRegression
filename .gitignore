@@ -1,2 +1,3 @@
 cropped_images/*
-logs/*
+*logs/*
+*__pycache__*
