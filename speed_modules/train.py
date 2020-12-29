@@ -26,14 +26,8 @@ def get_model():
 def train(train_input = SAVE_ARRAY_FILE, train_output = TRAIN_OUTPUT):
     # split into input (X) and output (Y) variables
     X = np.load(train_input)
-    #FIXME: Simplify
-    Y = []
-    with open(train_output) as csvfile:
-        reader = csv.reader(csvfile)
-        for row in reader:
-            for item in row:
-                Y.append(float(item))
-    Y = np.array(Y[:-1])
+    Y = np.loadtxt(train_output)
+    Y = Y[:-1]
 
     # train the model
     model = get_model()
@@ -43,12 +37,11 @@ def train(train_input = SAVE_ARRAY_FILE, train_output = TRAIN_OUTPUT):
     X_train, X_val, Y_train, Y_val = train_test_split(X, Y, test_size=0.2, random_state=1)
 
     # callbacks
-    earlyStopping = EarlyStopping(monitor='accuracy')
-    checkpoint = ModelCheckpoint(MODEL_PATH, verbose=1, monitor='accuracy')
+    checkpoint = ModelCheckpoint(MODEL_PATH, verbose=1, monitor='val_accuracy', save_best=True)
     logdir = os.path.join(LOG_DIR, datetime.datetime.now().strftime("%Y%m%d-%H%M%S"))
     tensorboard = TensorBoard(log_dir=logdir, histogram_freq=1, write_graph=True, update_freq=1)
     history = History()
-    callbacks_list = [checkpoint, tensorboard, history, earlyStopping]
+    callbacks_list = [checkpoint, tensorboard, history]
 
    # run
     model.fit(X_train, Y_train, batch_size=BATCH_SIZE, epochs=EPOCHS,  validation_data=(X_val, Y_val), callbacks=callbacks_list)
