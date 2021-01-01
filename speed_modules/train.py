@@ -44,12 +44,16 @@ def train(train_input = SAVE_ARRAY_FILE, train_output = TRAIN_OUTPUT):
     X_val = scaler.transform(X_val.reshape(-1, X_val.shape[-1])).reshape(X_val.shape)
     print(X_train.shape)
 
+    Y_train /= 100
+    Y_val /= 100
+
+    '''
     scaler_Y = StandardScaler()
     print(Y_train.shape)
     Y_train = scaler_Y.fit_transform(Y_train)
     Y_val = scaler_Y.transform(Y_val)
     print("Final scaler Y: ", scaler_Y)
-
+    '''
     '''
      for i in range(x):
         for j in range(y):
