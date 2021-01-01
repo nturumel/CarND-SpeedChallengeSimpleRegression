@@ -1,26 +1,28 @@
-from globals import TRAIN_FILE
+from globals import TRAIN_FILE, DIV_NUM
 import cv2
 import numpy as np
 from globals import *
 import sys 
 
+
 def process_flow(flow_data):
     # we will divide the op_flow into 10 consecutive regions
     # we will conduct average pooling operations on each region
     # we do this because we expect optical flow values of neighboring pixels to be similar
-    div_num = 10
+    div_num = DIV_NUM
     parts = np.array_split(np.array(flow_data), div_num, axis = 1)
     result = []
     for part in parts:
         result.append(np.mean(part, axis=(0, 1)))
     result = np.array(result)
 
+    '''
     # normalisation
     max_val =  np.array([max(result[:, 0]), max(result[:, 1])])
     min_value = np.array([min(result[:, 0]), min(result[:, 1])])
     result[:, 0] = (result[:, 0] - min_value[0]) / (max_val[0] - min_value[0])
     result[:, 1] = (result[:, 1] - min_value[1]) / (max_val[1] - min_value[1])
-    
+    '''
     return result
 
 
