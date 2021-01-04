@@ -7,3 +7,4 @@ RUN python -m  pip install scipy
 RUN python -m  pip install opencv-python
 RUN python -m  pip install keras
 RUN python -m pip install scikit-learn
+ENTRYPOINT "jupyter notebook --ip 0.0.0.0 --port 8888" && /bin/bash

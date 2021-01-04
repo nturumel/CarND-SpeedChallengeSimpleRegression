@@ -1,3 +1,6 @@
 cropped_images/*
 *logs/*
 *__pycache__*
+*logs*
+*__pycache__*
+*speed_modules/__pycache__

@@ -1,4 +1,4 @@
-from globals import INPUT_SHAPE, TRAIN_OUTPUT, SAVE_ARRAY_FILE, MODEL_PATH, LOG_DIR, EPOCHS, BATCH_SIZE
+from globals import  global_var
 
 import tensorflow as tf
 from keras.models import Sequential
@@ -16,16 +16,20 @@ import os
 
 def get_model():
     model = Sequential()
-    model.add(Input(shape = (INPUT_SHAPE)))
+    model.add(Input(shape = (global_var['INPUT_SHAPE'])))
     model.add(Flatten())
     model.add(Dense(64, activation='relu'))
     model.add(Dense(32, activation='relu'))
     model.add(Dense(16, activation='relu'))
     model.add(Dense(1, activation='relu'))
-    model.compile(loss='mean_squared_error', optimizer='adam', metrics=['accuracy', 'MeanSquaredError'])
+    model.compile(loss='mean_squared_error', optimizer='adam', metrics=['MeanSquaredError'])
     return model
 
-def train(train_input = SAVE_ARRAY_FILE, train_output = TRAIN_OUTPUT):
+def train():
+    # initialise
+    train_input = global_var['SAVE_ARRAY_FILE']
+    train_output = global_var['TRAIN_OUTPUT']
+    
     # split into input (X) and output (Y) variables
     X = np.load(train_input)
     Y = np.loadtxt(train_output)
@@ -44,8 +48,8 @@ def train(train_input = SAVE_ARRAY_FILE, train_output = TRAIN_OUTPUT):
     X_val = scaler.transform(X_val.reshape(-1, X_val.shape[-1])).reshape(X_val.shape)
     print(X_train.shape)
 
-    Y_train /= 100
-    Y_val /= 100
+    Y_train /= global_var['SCALE_OUTPUT']
+    Y_val /= global_var['SCALE_OUTPUT']
 
     '''
     scaler_Y = StandardScaler()
@@ -54,23 +58,15 @@ def train(train_input = SAVE_ARRAY_FILE, train_output = TRAIN_OUTPUT):
     Y_val = scaler_Y.transform(Y_val)
     print("Final scaler Y: ", scaler_Y)
     '''
-    '''
-     for i in range(x):
-        for j in range(y):
-            for k in range(z):
-                if a[i, j, k] > 1 or a[i, j, k] < 0:
-                    print("problem, value = %f, indice = %d, %d, %d" % (a[i, j, k], i, j, k))
-    '''
-
     # callbacks
-    checkpoint = ModelCheckpoint(MODEL_PATH, verbose=1, monitor='val_accuracy', save_best=True)
-    logdir = os.path.join(LOG_DIR, datetime.datetime.now().strftime("%Y%m%d-%H%M%S"))
+    checkpoint = ModelCheckpoint(global_var['MODEL_PATH'], verbose=1, monitor='val_accuracy', save_best=True)
+    logdir = os.path.join(global_var['LOG_DIR'], datetime.datetime.now().strftime("%Y%m%d-%H%M%S"))
     tensorboard = TensorBoard(log_dir=logdir, histogram_freq=1, write_graph=True, update_freq=1)
     history = History()
     callbacks_list = [checkpoint, tensorboard, history]
 
    # run
-    model.fit(X_train, Y_train, batch_size=BATCH_SIZE, epochs=EPOCHS,  validation_data=(X_val, Y_val), callbacks=callbacks_list)
+    model.fit(X_train, Y_train, batch_size=global_var['BATCH_SIZE'], epochs=global_var['EPOCHS'],  validation_data=(X_val, Y_val), callbacks=callbacks_list)
     
 if __name__ == '__main__':
     train()

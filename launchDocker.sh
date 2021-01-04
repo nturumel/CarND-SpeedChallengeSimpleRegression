@@ -1,1 +1,1 @@
-docker run --name nihar -it --rm -v $PWD:/tf/notebooks -e DISPLAY=host.docker.internal:0.0 -e LIBGL_ALWAYS_INDIRECT=0  tensorflow/tensorflow:latest-gpu-jupyter_keras_openCV_scipy_moviepy_scikit
+docker run --name nihar -it --rm -v $PWD:/tf/notebooks -e DISPLAY=host.docker.internal:0.0 -e LIBGL_ALWAYS_INDIRECT=0 -p 8888:8888  tensorflow/tensorflow:latest-gpu-jupyter_keras_openCV_scipy_moviepy_scikit

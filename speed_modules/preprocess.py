@@ -1,7 +1,7 @@
-from globals import TRAIN_FILE, DIV_NUM
+from globals import global_var
+
 import cv2
 import numpy as np
-from globals import *
 import sys 
 
 
@@ -9,8 +9,7 @@ def process_flow(flow_data):
     # we will divide the op_flow into 10 consecutive regions
     # we will conduct average pooling operations on each region
     # we do this because we expect optical flow values of neighboring pixels to be similar
-    div_num = DIV_NUM
-    parts = np.array_split(np.array(flow_data), div_num, axis = 1)
+    parts = np.array_split(np.array(flow_data), global_var['DIV_NUM_X'], axis=1)
     result = []
     for part in parts:
         result.append(np.mean(part, axis=(0, 1)))
@@ -26,7 +25,10 @@ def process_flow(flow_data):
     return result
 
 
-def generate_opflow(video_file = TRAIN_FILE):
+def generate_opflow():
+    # initialsise
+    video_file = global_var['TRAIN_FILE']
+    
     # initialise empty list for results
     result =[]
 
@@ -40,6 +42,7 @@ def generate_opflow(video_file = TRAIN_FILE):
             break 
 
         # crop to frame 
+        CROP_RANGE = global_var['CROP_RANGE']
         crop_img_prev = prev[CROP_RANGE[0]:CROP_RANGE[1], CROP_RANGE[2]:CROP_RANGE[3]]
         crop_img_next = next[CROP_RANGE[0]:CROP_RANGE[1], CROP_RANGE[2]:CROP_RANGE[3]]
     
@@ -57,7 +60,7 @@ def generate_opflow(video_file = TRAIN_FILE):
         result.append(process_flow(flow_data))
 
         # store cropped image for reference
-        filename = CROP_IMG + str(i) + r".jpg"
+        filename = CROP_RANGE['CROP_IMG'] + str(i) + r".jpg"
         cv2.imwrite(filename, crop_img_prev)
         i += 1
         sys.stdout.write('Opflow Processing frame number %d\r' % i)
